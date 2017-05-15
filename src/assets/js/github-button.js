@@ -14,11 +14,11 @@ function sendRequest(params, channelName, button) {
   }
 
   var username = params.username || 'Review Request';
-  var icon_emoji = params.emoji || ':slack:';
+  var icon_emoji = params.emoji || ':pr:';
   var gitHubUrl = window.location.href;
   var repoName = gitHubUrl.split("/")[4];
   var titleElement = document.querySelector('#partial-discussion-header > div.gh-header-show > h1 > span.js-issue-title')
-  var title = repoName + " - " + titleElement.innerHTML.trim();
+  var prDescription = titleElement.innerHTML.trim();
   var greenDiff = document.querySelector('#diffstat > span.text-green').innerHTML.trim();
   var redDiff = document.querySelector('#diffstat > span.text-red').innerHTML.trim();
 
@@ -26,7 +26,9 @@ function sendRequest(params, channelName, button) {
   var payload = {
     channel: channel,
     username: username,
-    text: "<" + gitHubUrl + "|" + title + "> _" + greenDiff + " " + redDiff + "_",
+    text: `:pr: ${prDescription}
+    ${gitHubUrl}
+    *${repoName}* \`${greenDiff} ${redDiff}\``,
     icon_emoji: icon_emoji
   };
 
